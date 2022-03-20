@@ -1,33 +1,41 @@
-const mininumComissionAmount = 0.05;
+const mininumCommissionAmount = 0.05;
 const defaultCommissionPercentage = 0.5;
 const discountClients = [42];
 const discountClientCommission = 0.05;
 const highTurnoverAmount = 1000;
 const highTurnoverCommission = 0.03;
 
-const defaultCommission = ({ amount }) => {
-  const commissionAmount = amount * (defaultCommissionPercentage / 100);
-  return commissionAmount > mininumComissionAmount ? commissionAmount : mininumComissionAmount;
-};
-
-const isDiscountClient = ({ clientID} ) => {
+const isDiscountClient = ({ clientID }) => {
   const found = discountClients.some((element) => element === clientID);
   return found;
 };
 
-const isHighTurnoverClient = ({ amount }) => amount >= highTurnoverAmount;
+const isHighTurnoverClient = ({ turnover }) => turnover >= highTurnoverAmount;
 
-const calculateCommission = ({ amount, clientID }) => {
-  const commission = [ defaultCommission(amount) ];
-  if (isHighTurnoverClient({ amount })) {
-    commission.push(highTurnoverCommission);
+const calculateDefaultCommission = ({ amount }) => {
+  const commissionAmount = amount * (defaultCommissionPercentage / 100);
+  return commissionAmount > mininumCommissionAmount ? commissionAmount : mininumCommissionAmount;
+};
+
+const calculateDiscountClient = () => discountClientCommission;
+const calculateHighTurnoverCommission = () => highTurnoverCommission;
+
+const calculateFinalCommission = ({ amount, clientID, turnover }) => {
+  const eligibleCommissions = [];
+  eligibleCommissions.push(calculateDefaultCommission({ amount }));
+  if (isHighTurnoverClient({ turnover })) {
+    eligibleCommissions.push(calculateHighTurnoverCommission());
   }
   if (isDiscountClient({ clientID })) {
-    commision.push(discountClientCommission);
+    eligibleCommissions.push(calculateDiscountClient());
   }
-  return Math.min(...commission);
+  const finalCommission = Math.min(...eligibleCommissions);
+  return Math.round(finalCommission * 100) / 100;
 };
-  
-console.log(defaultCommission({ amount: 500 }));
-console.log(isDiscountClient({ clientID: 42}));
-console.log("Calculate commision", calculateCommission({ amount: 1000, clientId: 7}));
+
+module.exports = {
+  calculateFinalCommission,
+};
+
+// console.log(isDiscountClient({ clientID: 42}));
+// console.log("Calculate commision", calculateFinalCommission({ amount: 600, turnover: 900, clientID: 10}));
