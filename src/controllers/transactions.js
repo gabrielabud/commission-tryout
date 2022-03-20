@@ -1,11 +1,13 @@
 const dbq = require('../db/queries');
+const { amountEURConverted } = require('../helpers/exchange_rate');
 
 const create = async ({
   date, amount, currency, clientID,
 }) => {
   try {
+    const { exchangeRate, amountEUR } = await amountEURConverted({ amount, currency, date });
     const response = await dbq.createTransaction({
-      date, amount, currency, clientID,
+      date, amount, currency, clientID, amountEUR, exchangeRate,
     });
     return response;
   } catch (error) {

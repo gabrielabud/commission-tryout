@@ -10,25 +10,20 @@ const getExchangeRate = async ({ currency, date }) => {
   }
 };
 
-const amountCurrencyConverted = async ({ amount, currency, date }) => {
+const amountEURConverted = async ({ amount, currency, date }) => {
   if (currency === 'EUR') {
-    return amount;
+    return { amountEUR: amount, exchangeRate: 1 };
   }
   try {
     const exchangeRate = await getExchangeRate({ currency, date });
-    const amountConverted = amount / exchangeRate;
-    return { amountConverted, exchangeRate };
+    const amountEUR = amount / exchangeRate;
+    return { amountEUR, exchangeRate };
   } catch (error) {
     throw new Error(`${error.message}`);
   }
 };
 
 module.exports = {
-  amountCurrencyConverted,
+  amountEURConverted,
+  getExchangeRate,
 };
-
-// const response =  async () => {
-//   const kiki = await amountCurrencyConverted({amount: 1000, date: '2022-02-01', currency: 'USD'})
-//   console.log('kiki', kiki);
-// }
-// response()

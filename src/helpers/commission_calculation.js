@@ -1,4 +1,4 @@
-const mininumCommissionAmount = 0.05;
+const mininumDefaultCommissionAmount = 0.05;
 const defaultCommissionPercentage = 0.5;
 const discountClients = [42];
 const discountClientCommission = 0.05;
@@ -14,12 +14,13 @@ const isHighTurnoverClient = ({ turnover }) => turnover >= highTurnoverAmount;
 
 const calculateDefaultCommission = ({ amount }) => {
   const commissionAmount = amount * (defaultCommissionPercentage / 100);
-  return commissionAmount > mininumCommissionAmount ? commissionAmount : mininumCommissionAmount;
+  return commissionAmount > mininumDefaultCommissionAmount ? commissionAmount : mininumDefaultCommissionAmount;
 };
 
 const calculateDiscountClient = () => discountClientCommission;
 const calculateHighTurnoverCommission = () => highTurnoverCommission;
 
+// amount and turnover values denominated in EUR, conversion before passing
 const calculateFinalCommission = ({ amount, clientID, turnover }) => {
   const eligibleCommissions = [];
   eligibleCommissions.push(calculateDefaultCommission({ amount }));
@@ -36,6 +37,3 @@ const calculateFinalCommission = ({ amount, clientID, turnover }) => {
 module.exports = {
   calculateFinalCommission,
 };
-
-// console.log(isDiscountClient({ clientID: 42}));
-// console.log("Calculate commision", calculateFinalCommission({ amount: 600, turnover: 900, clientID: 10}));

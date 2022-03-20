@@ -2,7 +2,7 @@ const moment = require('moment');
 const knex = require('./knex');
 
 const createTransaction = async ({
-  date, amount, currency, clientID,
+  date, amount, currency, clientID, amountEUR, exchangeRate,
 }) => {
   try {
     const response = await knex.insert({
@@ -10,6 +10,8 @@ const createTransaction = async ({
       amount,
       currency,
       client_id: clientID,
+      amount_eur: amountEUR,
+      exchange_rate: exchangeRate,
     }).into('transactions').returning('*');
     return response;
   } catch (error) {
@@ -48,10 +50,10 @@ const transactionsTurnoverMonthly = async ({ tableName, date, clientID }) => {
       .where({ client_id: clientID })
       .where('date', '>=', firstOfMonth)
       .where('date', '<=', lastOfMonth)
-      .sum('amount');
+      .sum('amount_eur');
     return response[0].sum;
   } catch (error) {
-    console.log('Error in knex queries #list', `with following error message: ${error.message}`);
+    console.log('Error in knex queries #transactionsTurnoverMonthly', `with following error message: ${error.message}`);
     throw new Error(`${error.message}`);
   }
 };

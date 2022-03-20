@@ -19,7 +19,7 @@ describe('routes: transactions', () => {
 
   describe('POST /transactions', () => {
     context('SUCCESS: Send POST request to create a transaction', () => {
-      it('should return the transaction resource created', (done) => {
+      it('EUR: should return the transaction resource created', (done) => {
         chai.request(server)
           .post('/transactions')
           .set('Content-Type', 'application/json')
@@ -38,8 +38,40 @@ describe('routes: transactions', () => {
             res.body[0].should.have.properties({
               date: '2021-01-17',
               amount: '700.00',
+              amount_eur: '700.00',
               currency: 'EUR',
               client_id: 50,
+              exchange_rate: '1.000000',
+            });
+            res.body[0].should.have.property('id');
+            res.body.should.have.length(1);
+            done();
+          });
+      });
+
+      it('USD: should return the transaction resource created', (done) => {
+        chai.request(server)
+          .post('/transactions')
+          .set('Content-Type', 'application/json')
+          .send({
+            date: '2021-01-17',
+            amount: '2000.00',
+            currency: 'USD',
+            client_id: 72,
+          })
+          .end((err, res) => {
+            should.not.exist(err);
+            res.status.should.eql(200);
+            res.type.should.eql('application/json');
+            const returnDate = new Date(res.body[0].date);
+            res.body[0].date = `${returnDate.getFullYear()}-${(returnDate.getMonth() + 1).toString().padStart(2, '0')}-${returnDate.getDate().toString().padStart(2, '0')}`;
+            res.body[0].should.have.properties({
+              date: '2021-01-17',
+              amount: '2000.00',
+              amount_eur: '1655.84',
+              currency: 'USD',
+              exchange_rate: '1.207845',
+              client_id: 72,
             });
             res.body[0].should.have.property('id');
             res.body.should.have.length(1);
