@@ -1,7 +1,6 @@
 # Task Specification
 
-Create a RESTful API with an endpoint for transaction commission calculation. The API must use JSON format for requests and responses. More details in 
-
+Create a RESTful API with an endpoint for transaction commission calculation. The API must use JSON format for requests and responses.  
 
 ### Commission calculation rules
 
@@ -23,7 +22,7 @@ Client after reaching transaction turnover of `1000.00€` (per month) gets a di
 - $ npm install
 - $ psql  <br />
     -->  CREATE DATABASE payments;  <br />
-     -->  CREATE DATABASE payments_test;
+    -->  CREATE DATABASE payments_test;
 - $ knex migrate:latest <br />
   --> for running the database migrations on the development database 'payments'
 - $ knex migrate:latest --env test <br />
@@ -45,19 +44,17 @@ Client after reaching transaction turnover of `1000.00€` (per month) gets a di
 
 - The database is PostgresSQL, having used Knex for querying the database
 
-- request-promise HTTP request which has support for Promise
-
 - For integration testing I have used Mocha(test framework running on Node.js), Chai(BDD / TDD assertion library), Chai-Properties(properties matcher for chai) and  Chai-HTTP(making the http requests)
 
 # Database Schema
 
-I have only defined the transactions table. If I had more time, I would have also defined a client and commission table. ONE CLIENT has MANY TRANSACTIONS. ONE TRANSACTION can only have ONE CLIENT as iniator.
 For more details on the database schema please consult the migrations file located at 
   ./src/db/migrations/20220317204033_create_transactions_table.js
 
+I have only defined the transactions table. If I had more time, I would have also defined a client table. ONE CLIENT can have MANY TRANSACTIONS. ONE TRANSACTION can only have ONE CLIENT as initiator.
+
 # REST API Architecture
 
-The API follows a restful architectural style
 - POST /commission --> to calculate commission
 - POST /transactions --> to create a transaction resource
 

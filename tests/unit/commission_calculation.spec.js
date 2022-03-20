@@ -1,8 +1,9 @@
 const chai = require('chai');
 const { calculateFinalCommission } = require('../../src/helpers/commission_calculation');
+
 chai.should();
 
-describe('#calculateFinalCommission', () =>  {
+describe('#calculateFinalCommission', () => {
   it('should return commission for client with discount', () => {
     const commission = calculateFinalCommission({ amount: 2000, clientID: 42, turnover: 999 });
     commission.should.eql(0.05);
@@ -28,4 +29,3 @@ describe('#calculateFinalCommission', () =>  {
     commission.should.eql(0.05);
   });
 });
-

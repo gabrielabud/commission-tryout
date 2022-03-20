@@ -7,7 +7,7 @@
     "test:integration": "./node_modules/.bin/mocha ./tests/integration/*",
     "test:unit": "./node_modules/.bin/mocha ./tests/unit/*",
     "lint": "./node_modules/.bin/eslint .",
-    "start": "node index.js"
+    "start": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,7 +16,8 @@
     "express": "^4.17.3",
     "knex": "^1.0.4",
     "moment": "^2.29.1",
-    "node-fetch": "^2.6.7"
+    "node-fetch": "^2.6.7",
+    "nodemon": "^2.0.15"
   },
   "devDependencies": {
     "chai": "^4.3.6",

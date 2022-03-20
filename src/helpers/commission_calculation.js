@@ -10,7 +10,7 @@ const isDiscountClient = ({ clientID }) => {
   return found;
 };
 
-// turnover passed is calculated for current month only
+// turnover =  current month only turnover
 const isHighTurnoverClient = ({ turnover }) => turnover >= highTurnoverAmount;
 
 const calculateDefaultCommission = ({ amount }) => {
