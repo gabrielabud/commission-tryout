@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const { create, list } = require('../controllers/transactions');
+const { create } = require('../controllers/transactions');
 
 router.post(
   '/transactions',
@@ -21,18 +21,4 @@ router.post(
   },
 );
 
-router.get(
-  '/transactions',
-  async (req, res, next) => {
-    try {
-      const response = await list();
-      res.status(200).json(response);
-      return next();
-    } catch (error) {
-      return next(error);
-    }
-  },
-);
-
 module.exports = router;
-

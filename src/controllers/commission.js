@@ -1,16 +1,15 @@
 const dbq = require('../db/queries');
 
-async function transactionsTurnoverMonthly(date) {
+const transactionsTurnoverMonthly = async ({ clientID, date }) => {
   try {
-    console.log('controllers commission')
-    const response = await dbq.transactionsTurnoverMonthly({ tableName: 'transactions', date });
+    const response = await dbq.transactionsTurnoverMonthly({ tableName: 'transactions', date, clientID });
     return response;
   } catch (error) {
-    console.log('Error in transactions controller #listByDate');
-    throw error;
+    console.log('Error in transactions controller #transactionsTurnoverMonthly');
+    throw new Error(`${error.message}`);
   }
-}
+};
 
 module.exports = {
-  transactionsTurnoverMonthly
+  transactionsTurnoverMonthly,
 };

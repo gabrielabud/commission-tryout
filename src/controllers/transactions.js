@@ -1,8 +1,8 @@
 const dbq = require('../db/queries');
 
-async function create({
+const create = async ({
   date, amount, currency, clientID,
-}) {
+}) => {
   try {
     const response = await dbq.createTransaction({
       date, amount, currency, clientID,
@@ -10,29 +10,29 @@ async function create({
     return response;
   } catch (error) {
     console.log('Error in transactions controller #create');
-    throw error;
+    throw new Error(`${error.message}`);
   }
-}
+};
 
-async function list() {
+const list = async () => {
   try {
     const response = await dbq.list('transactions');
     return response;
   } catch (error) {
     console.log('Error in transactions controller #list');
-    throw error;
+    throw new Error(`${error.message}`);
   }
-}
+};
 
-async function listByClientID(clientID) {
+const listByClientID = async (clientID) => {
   try {
     const response = await dbq.listByClientID({ tableName: 'transactions', clientID });
     return response;
   } catch (error) {
     console.log('Error in transactions controller #listByClientID');
-    throw error;
+    throw new Error(`${error.message}`);
   }
-}
+};
 
 module.exports = {
   create,
