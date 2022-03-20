@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test:integration": "./node_modules/.bin/mocha ./tests/integration/*",
+    "test:unit": "./node_modules/.bin/mocha ./tests/unit/*",
     "lint": "./node_modules/.bin/eslint .",
     "start": "node index.js"
   },
